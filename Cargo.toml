@@ -1,0 +1,39 @@
+[package]
+name = "t24"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rust_decimal = "1.35"
+rust_decimal_macros = "1.34.2"
+rusqlite = { version = "0.32.1", features = ["bundled","backup"] }
+chrono = {version = "0.4.38", features = ["serde"]}
+reqwest = { version = "0.12.5", default-features = false, features = ["json", "blocking", "cookies","brotli","gzip","http2","rustls-tls"] }
+rayon = "1.10.0"
+rouille = {version="3.6.2", default-features = false }
+rustls = "0.23.11"
+webpki-roots = "0.26.3"
+env_logger = "0.11.3"
+t24_macros = { path = "t24_macros" }
+csv = "1.3.0"
+log = "0.4.21"
+
+#uuid = {version = "1.10.0", features = ["fast-rng", "v4", "serde"] }
+#polars = {version = "0.41.3"}
+#redis = { version = "0.25.3", features = ["json"] }
+#clap = { version = "4.5.9", features = ["cargo"]}
+
+[build-dependencies]
+bindgen = "0.58.1"
+
+[workspace]
+members = [
+    "t24_macros",
+    "t24_lib",
+    "t24_server",
+    "t24_cli",
+    "t24_near",
+    "t24_near_lib"
+]
