@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
 
 
-use crate::db::{Instrument, OrderType, StatusType, TriggerType};
+use crate::db::{OrderType, StatusType, TriggerType};
+use crate::instrument::Instrument;
+
 // use crate::strategy::Strat;
 #[derive(
     Debug,

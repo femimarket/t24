@@ -1,110 +1,15 @@
-use std::time::Duration;
-use rusqlite::{Connection, DatabaseName, Transaction};
-use rusqlite::backup::{Backup, Progress};
+use rusqlite::{Connection, DatabaseName};
+use rusqlite::backup::Progress;
 use serde::{Deserialize, Serialize};
 use t24_macros::EnumI64Derive;
-use crate::home;
+use crate::t24_std::home;
 
 pub mod brick;
-pub mod account;
-pub mod tick;
 pub mod trade;
 pub mod trial;
 
 const DB_NAME:&str = "t24";
 
-#[repr(C)]
-#[derive(Hash,Debug, Clone, Copy, Serialize, Deserialize, EnumI64Derive, Eq, PartialEq, Ord, PartialOrd)]
-pub enum Instrument {
-    AudCad,
-    AudChf,
-    AudHkd,
-    AudJpy,
-    AudNzd,
-    AudSgd,
-    AudUsd,
-    CadChf,
-    CadHkd,
-    CadJpy,
-    CadSgd,
-    ChfHkd,
-    ChfJpy,
-    EurAud,
-    EurCad,
-    EurChf,
-    EurGbp,
-    EurHkd,
-    EurJpy,
-    EurNzd,
-    EurSgd,
-    EurUsd,
-    GbpAud,
-    GbpCad,
-    GbpChf,
-    GbpHkd,
-    GbpJpy,
-    GbpNzd,
-    GbpSgd,
-    GbpUsd,
-    HkdJpy,
-    NzdCad,
-    NzdChf,
-    NzdHkd,
-    NzdJpy,
-    NzdSgd,
-    NzdUsd,
-    SgdChf,
-    SgdHkd,
-    SgdJpy,
-    UsdCad,
-    UsdChf,
-    UsdHkd,
-    UsdJpy,
-    UsdSgd,
-    Jpy,
-    NonFarmUsPayroll,
-    Usd,
-    Eur
-}
-
-impl Instrument {
-    pub fn pip_i64(&self)->i64{
-        match self {
-            Instrument::EurUsd => 1,
-            Instrument::UsdJpy => 100,
-            _ => panic!()
-        }
-    }
-    pub fn q(&self){
-        let (base,quote) = format!("{:?}",self).split_at(3);
-    }
-}
-
-
-
-
-
-pub fn init_tx(conn:&Transaction){
-    conn.execute_batch(
-        account::DB_INIT,
-    ).unwrap();
-
-    conn.execute(
-        "drop table if exists bricks",
-        (),
-    ).unwrap();
-
-    conn.execute(
-        "CREATE TABLE if not exists bricks (
-            id  INTEGER PRIMARY KEY,
-            tick  INTEGER NOT NULL,
-            v  INTEGER NOT NULL default 0,
-            t  INTEGER NOT NULL,
-            instrument  TEXT NOT NULL
-        )",
-        (),
-    ).unwrap();
-}
 
 pub fn mem() -> Connection {
     Connection::open_in_memory().unwrap()

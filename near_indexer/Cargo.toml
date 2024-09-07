@@ -1,0 +1,58 @@
+[package]
+name = "near_indexer"
+version = "0.10.1"
+authors = ["Near Inc <hello@nearprotocol.com>, evergreen-trading-systems <4870868+evergreen-trading-systems@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+hyper = { version = "0.14", features = ["full"] }
+actix = {workspace = true}
+actix-cors = "0.6.1"
+actix-http = {workspace = true}
+actix-rt = {workspace = true}
+actix-web = {workspace = true}
+anyhow = "1.0.62"
+base64 = "0.11"
+bigdecimal = "=0.1.0"
+borsh = "0.7.1"
+chrono = "0.4.19"
+clap = { version = "4.2.0", features = ["derive", "env", "string"] }
+# Using hacky diesel-derive-enum https://github.com/adwhit/diesel-derive-enum/issues/52
+dotenv = "0.15.0"
+futures = "0.3.5"
+hex = "0.4"
+itertools = "0.9.0"
+num-traits = "0.2.11"
+openssl-probe = { version = "0.1.2" }
+r2d2 = "0.8.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0.55"
+tokio-stream = { version = "0.1.2", features = ["net"] }
+tracing = { version = "0.1.40", features = ["std"] }
+tracing-subscriber = "0.2.4"
+uint = { version = "0.8.3", default-features = false }
+
+tokio = {workspace = true}
+near-jsonrpc-client = {workspace = true}
+near-account-id = {workspace = true}
+near-jsonrpc-primitives = {workspace = true}
+near-indexer = { workspace = true}
+node-runtime = { workspace = true}
+near-crypto = { workspace = true}
+near-client = { workspace = true}
+near-indexer-primitives = { workspace = true}
+near-primitives = { workspace = true}
+near-chain-configs = { workspace = true}
+near-o11y = { workspace = true}
+near-parameters = { workspace = true}
+near-store = { workspace = true}
+nearcore = { workspace = true}
+rocksdb = { version = "0.21.0", default-features = false, features = [
+    "snappy",
+    "lz4",
+    "zstd",
+    "zlib",
+    "jemalloc",
+] }
+lazy_static = "1.5.0"
+once_cell = "1.19.0"

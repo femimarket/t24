@@ -1,6 +1,6 @@
 use rusqlite::Transaction;
 use crate::db;
-use crate::db::tick::Tick;
+use crate::tick::Tick;
 
 
 

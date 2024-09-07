@@ -1,0 +1,9 @@
+[package]
+name = "t24_test"
+version = "0.1.0"
+edition = "2021"
+
+
+[dependencies]
+
+t24_lib = {path="../t24_lib", features = ["std"]}

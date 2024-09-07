@@ -29,11 +29,48 @@ log = "0.4.21"
 bindgen = "0.58.1"
 
 [workspace]
+resolver = "2"
 members = [
     "t24_macros",
     "t24_lib",
     "t24_server",
-    "t24_cli",
     "t24_near",
-    "t24_near_lib"
+    "near_indexer",
+    "t24_near_indexer",
+    "t24_test"
 ]
+
+[workspace.dependencies]
+tokio = { version = "1.28", default-features = false }
+actix = "0.13.0"
+actix-http = "3.6"
+actix-rt = "2"
+actix-web = "4.1"
+near-sdk = { version = "5.4.0"}
+near-workspaces = { version = "0.12.0", features = ["unstable"] }
+near-cli-rs = {version = "0.14.3", default-features = false}
+near-jsonrpc-client = {git="https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-account-id = { version = "1.0.0-alpha.4", features = [
+    "internal_unstable",
+    "serde",
+    "borsh",
+] }
+near-jsonrpc-primitives = {git="https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-indexer = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+node-runtime = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-crypto = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-client = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-indexer-primitives = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-primitives = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-chain-configs = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-o11y = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-parameters = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+near-store = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+nearcore = { git = "https://github.com/near/nearcore", rev="1877e3dd2bf69908aa092e4d412eb417b8084c15" }
+rocksdb = { version = "0.21.0", default-features = false, features = [
+    "snappy",
+    "lz4",
+    "zstd",
+    "zlib",
+    "jemalloc",
+] }

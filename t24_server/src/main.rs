@@ -27,6 +27,7 @@ async fn main() -> std::io::Result<()> {
     let account_id = AccountId::from_str("lilses.near")
         .unwrap();
 
+    methods::
     let request = methods::query::RpcQueryRequest {
         block_reference: BlockReference::Finality(Finality::Final),
         request: QueryRequest::ViewAccount { account_id },
