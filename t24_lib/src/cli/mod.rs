@@ -1,7 +1,8 @@
 use std::env::var;
 // use near_cli_rs::commands::TopLevelCommand;
 use clap::Parser;
-use crate::near::trial::{std::set_trial, Trial};
+use crate::trial::near::std::set_trial;
+use crate::trial::Trial;
 
 #[derive(Debug,Parser)] // requires `derive` feature
 pub enum CargoCli {

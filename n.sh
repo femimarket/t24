@@ -51,15 +51,20 @@ function run_indexer() {
     ./target/release/t24_near_indexer
 }
 
+#near account import-account using-private-key ed25519:49PtFv2iorSN7XnaxKmwiXwBoM328Eim8Rg97rhgiR5BgW94auKAgd8W8nkLmt6HvmCvC7HhgtMCEc59KRLUQwDA network-config localnet
+
 function deploy() {
     build &&
-    near deploy $contract_account ./target/wasm32-unknown-unknown/release/t24_near.wasm --initFunction init --initArgs "{\"owner\": \"$root_account\"}" --network-id $NETWORK
+#    near call --network-id $NETWORK --accountId $root_account --gas 300000000000000 $contract_account init "{\"owner\": \"test.near\"}"
+
+
+    near deploy $contract_account /home/u/Documents/RustOver/t24/target/wasm32-unknown-unknown/release/t24_near.wasm --initFunction init --initArgs "{\"owner\": \"$root_account\"}" --network-id $NETWORK
 }
 
 function create_accounts() {
     for i in $contract_account; do
       #      ((z=z%N)); ((z++==0)) && wait
-      str="near create-account $i --masterAccount $root_account --initialBalance 2 --network-id $NETWORK"
+      str="near create-account $i --masterAccount $root_account --initialBalance 20 --network-id $NETWORK"
       echo running $str
       eval $str
     done

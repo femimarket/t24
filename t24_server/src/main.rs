@@ -8,7 +8,7 @@ use near_jsonrpc_client::{JsonRpcClient, methods};
 use near_jsonrpc_primitives::types::query::QueryResponseKind;
 use near_primitives::types::{BlockReference, Finality};
 use near_primitives::views::QueryRequest;
-use t24_lib::db::trade::Trade;
+use t24_lib::trade::Trade;
 use t24_lib::db::trial::Trial;
 
 #[derive(Default)]

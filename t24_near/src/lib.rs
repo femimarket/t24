@@ -4,9 +4,10 @@ use near_sdk::{AccountId, BorshStorageKey, env, log, near, NearToken, PanicOnDef
 use near_sdk::env::promise_batch_action_create_account;
 use near_sdk::json_types::U64;
 use near_sdk::store::{LookupMap, LookupSet};
+use t24_lib::trade::Trade;
 use t24_lib::instrument::Instrument;
 use t24_lib::tick::Tick;
-use t24_lib::near::trial::Trial;
+use t24_lib::trial::Trial;
 
 // Define the contract structure
 #[near(contract_state)]
@@ -14,7 +15,7 @@ use t24_lib::near::trial::Trial;
 pub struct Contract {
     trials: LookupMap<U64,Trial>,
     ticks: LookupMap<Instrument,Tick>,
-    trades: LookupMap<Instrument,Tick>,
+    trades: LookupMap<String,Trade>,
     trial_liquidation_proofs: LookupMap<Instrument,Tick>,
     last_trial_id: U64,
     owner: AccountId
@@ -24,7 +25,9 @@ pub struct Contract {
 #[derive(BorshStorageKey)]
 pub enum Prefix {
     Trial,
-    Tick
+    Tick,
+    Trade,
+    TrialLiquidationProof
 }
 
 const TRIAL_FEE:NearToken = NearToken::from_near(100);
@@ -51,6 +54,8 @@ impl Contract {
         Self {
             trials: LookupMap::new(Prefix::Trial),
             ticks: LookupMap::new(Prefix::Tick),
+            trades: LookupMap::new(Prefix::Trade),
+            trial_liquidation_proofs: LookupMap::new(Prefix::TrialLiquidationProof),
             last_trial_id: Default::default(),
             owner,
         }

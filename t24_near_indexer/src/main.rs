@@ -24,6 +24,7 @@ fn main() {
         "nearcore=info,indexer_example=info,tokio_reactor=info,near=info,\
          stats=info,telemetry=info,indexer=info,near-performance-metrics=info",
     );
+
     let _subscriber = near_o11y::default_subscriber(env_filter, &Default::default()).global();
     indexer_init_configs(&PathBuf::from(&near_dir), InitConfigArgs {
         chain_id: Some(chain.to_string()),
@@ -49,7 +50,7 @@ fn main() {
     system.block_on(async move {
         let indexer = Indexer::new(IndexerConfig{
             home_dir: near_dir.as_str().parse().unwrap(),
-            sync_mode: SyncModeEnum::FromInterruption,
+            sync_mode: SyncModeEnum::LatestSynced,
             await_for_node_synced: AwaitForNodeSyncedEnum::WaitForFullSync,
             validate_genesis: false,
         }).unwrap();

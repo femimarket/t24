@@ -5,7 +5,6 @@ use t24_macros::EnumI64Derive;
 use crate::t24_std::home;
 
 pub mod brick;
-pub mod trade;
 pub mod trial;
 
 const DB_NAME:&str = "t24";
@@ -69,29 +68,5 @@ pub const NON_FARM_PAYROLL_US: &str = "NON_FARM_PAYROLL_US";
 pub const EUR_USD: &str = "EUR_USD";
 pub const EUR_USD_RENKO_100: &str = "EUR_USD_RENKO_100";
 
-#[derive(Hash,Debug, Clone, Copy, Serialize, Deserialize,EnumI64Derive, Eq, PartialEq, Ord, PartialOrd)]
 
-pub enum OrderType {
-    Market,
-    LimitStop,
-    DoubleLimitStop,
-}
-
-#[derive(Hash,Debug, Clone, Copy, Serialize, Deserialize,EnumI64Derive, Eq, PartialEq, Ord, PartialOrd)]
-
-pub enum TriggerType {
-    Nothing,
-    CancelPending
-}
-
-#[derive(Hash,Debug, Clone, Copy, Serialize, Deserialize,EnumI64Derive, Eq, PartialEq, Ord, PartialOrd)]
-
-pub enum StatusType {
-    Pending,
-    Open,
-    Cancelled,
-    Closed,
-    PartialClosed,
-    Filled
-}
 

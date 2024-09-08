@@ -11,16 +11,32 @@ pub mod db;
 
 pub mod tick;
 pub mod instrument;
+pub mod trade;
+
+#[cfg(feature = "std")]
+pub mod oanda;
+
+pub mod trial;
 
 #[cfg(feature = "std")]
 pub mod t24_std {
+    use std::cell::OnceCell;
     use std::fs::File;
     use std::io::BufReader;
     use chrono::TimeZone;
     use serde::{Deserialize, Serialize};
     use serde_json::Value;
     use crate::tick::Tick;
-    use super::db::trade::Trade;
+    use crate::trade::Trade;
+
+    const OANDA_SECRET: OnceCell<String> = OnceCell::new();
+
+
+    pub fn oanda_secret() -> String {
+        OANDA_SECRET.get_or_init(|| {
+            std::env::var("OANDA_SECRET").unwrap()
+        }).to_string()
+    }
 
 
     pub const BUY: i64 = 1;
@@ -34,7 +50,27 @@ pub mod t24_std {
     }
 
 
+    pub fn time_iter(from:i64,to:i64,increase_by:i64) -> Vec<i64>{
+        let mut start = 0;
+        let mut end = 0;
+        let mut results = vec![];
+        while end < to {
+            if start == 0 && end == 0 {
+                start = from;
+                end = start+increase_by;
+            } else {
+                start = end;
+                end = end + increase_by;
+            }
 
+            if end >= to {
+                end = to
+            }
+            results.push(start);
+            results.push(end);
+        }
+        results
+    }
 
     pub fn units(signal:i64) ->i64{
         if signal == BUY {

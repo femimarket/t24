@@ -1,19 +1,11 @@
-use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use near_sdk::near;
-use serde::{Deserialize, Serialize};
 use crate::instrument::Instrument;
 
 const TABLE:&str = "ticks";
 
 
 
-pub fn get_jan1_str() -> String{
-    let jan1 = NaiveDateTime::new(
-        NaiveDate::from_ymd_opt(1,1,1).unwrap(),
-        NaiveTime::from_hms_opt(0,0,0).unwrap()
-    ).and_utc().timestamp_millis();
-    format!("select * from {TABLE} where t >= '{jan1}'")
-}
+
 
 #[derive(Debug,Clone,Copy,Ord, PartialOrd, Eq, PartialEq)]
 #[cfg_attr(feature = "std", derive(clap::Parser))]

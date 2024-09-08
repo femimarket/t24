@@ -1,8 +1,40 @@
+use near_sdk::near;
 use serde::{Deserialize, Serialize};
-
-
-use crate::db::{OrderType, StatusType, TriggerType};
+use serde_repr::{Deserialize_repr, Serialize_repr};
+use t24_macros::EnumI64Derive;
 use crate::instrument::Instrument;
+
+#[derive(Hash,Debug, Clone, Copy, Serialize_repr, Deserialize_repr, EnumI64Derive, Eq, PartialEq, Ord, PartialOrd)]
+#[cfg_attr(feature = "std", derive(clap::ValueEnum))]
+#[near(serializers = [borsh])]
+#[repr(u8)]
+pub enum OrderType {
+    Market,
+    LimitStop,
+    DoubleLimitStop,
+}
+
+#[derive(Hash,Debug, Clone, Copy, Serialize_repr, Deserialize_repr, EnumI64Derive, Eq, PartialEq, Ord, PartialOrd)]
+#[cfg_attr(feature = "std", derive(clap::ValueEnum))]
+#[near(serializers = [borsh])]
+#[repr(u8)]
+pub enum TriggerType {
+    Nothing,
+    CancelPending
+}
+
+#[derive(Hash,Debug, Clone, Copy, Serialize_repr, Deserialize_repr, EnumI64Derive, Eq, PartialEq, Ord, PartialOrd)]
+#[cfg_attr(feature = "std", derive(clap::ValueEnum))]
+#[near(serializers = [borsh])]
+#[repr(u8)]
+pub enum StatusType {
+    Pending,
+    Open,
+    Cancelled,
+    Closed,
+    PartialClosed,
+    Filled
+}
 
 // use crate::strategy::Strat;
 #[derive(
@@ -13,14 +45,14 @@ use crate::instrument::Instrument;
     PartialOrd,
     Eq,
     PartialEq,
-    Serialize,
-    Deserialize,
 )]
+#[cfg_attr(feature = "std", derive(clap::Parser))]
+#[cfg_attr(feature = "std", command(version, about, long_about = None))]
+#[near(serializers = [json, borsh])]
 pub struct Trade {
     pub price: i64,
     pub dt: i64,
     pub instrument: Instrument,
-    // pub strategy: Strat,
     pub lot: i64,
     pub order_type: OrderType,
     pub stop_price: i64,

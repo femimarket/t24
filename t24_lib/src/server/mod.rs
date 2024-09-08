@@ -1,4 +1,5 @@
-use crate::db::trade::Trade;
+
+use crate::trade::Trade;
 // use crate::Trade2;
 //
 // pub fn post_trial(

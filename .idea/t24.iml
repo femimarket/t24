@@ -10,6 +10,9 @@
       <sourceFolder url="file://$MODULE_DIR$/t24_near/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/t24_near_lib/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/t24_server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/near_indexer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/t24_near_indexer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/t24_test/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
