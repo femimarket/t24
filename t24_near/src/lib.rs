@@ -4,6 +4,7 @@ use near_sdk::{AccountId, BorshStorageKey, env, log, near, NearToken, PanicOnDef
 use near_sdk::env::promise_batch_action_create_account;
 use near_sdk::json_types::U64;
 use near_sdk::store::{LookupMap, LookupSet};
+use near_sdk::store::key::Sha256;
 use t24_lib::trade::Trade;
 use t24_lib::instrument::Instrument;
 use t24_lib::tick::Tick;
@@ -17,7 +18,7 @@ pub struct Contract {
     accounts: LookupMap<U64,Trial>,
     ticks: LookupMap<Instrument,Tick>,
     trades: LookupMap<(AccountId,Instrument),Trade>,
-    test_trades: LookupMap<(AccountId,Instrument),Trade>,
+    test_trades: LookupMap<(AccountId,Instrument),[u8;32]>,
     trial_liquidation_proofs: LookupMap<Instrument,Tick>,
     last_test_trader_id: U64,
     owner: AccountId

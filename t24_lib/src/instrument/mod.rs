@@ -66,7 +66,5 @@ impl Instrument {
             _ => panic!()
         }
     }
-    pub fn q(&self){
-        let (base,quote) = format!("{:?}",self).split_at(3);
-    }
+
 }

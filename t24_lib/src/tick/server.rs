@@ -2,7 +2,7 @@
 pub mod std {
     use std::thread::sleep;
     use std::time::Duration;
-
+    use rayon::iter::ParallelIterator;
     use rayon::iter::IntoParallelRefIterator;
 
     use crate::instrument::Instrument;
@@ -19,7 +19,7 @@ pub mod std {
                     &contract_id(),
                     &key_path(),
                     &oanda_secret(),
-                    instrument
+                    *instrument
                 );
             });
             sleep(Duration::from_secs(1));

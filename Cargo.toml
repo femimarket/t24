@@ -37,10 +37,16 @@ members = [
     "t24_near",
     "near_indexer",
     "t24_near_indexer",
-    "t24_test"
+    "t24_test",
+    "t24_zk_program",
+    "t24_zk_script"
 ]
 
 [workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+clap = {version = "4.5.16"}
+alloy-sol-types = "0.7.7"
 tokio = { version = "1.28", default-features = false }
 actix = "0.13.0"
 actix-http = "3.6"

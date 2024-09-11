@@ -1,4 +1,3 @@
-mod prelude;
 pub mod server;
 pub mod near;
 
