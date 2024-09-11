@@ -13,20 +13,24 @@ use t24_lib::trial::Trial;
 #[near(contract_state)]
 #[derive(PanicOnDefault)]
 pub struct Contract {
-    trials: LookupMap<U64,Trial>,
+    test_accounts: LookupMap<U64,Trial>,
+    accounts: LookupMap<U64,Trial>,
     ticks: LookupMap<Instrument,Tick>,
-    trades: LookupMap<String,Trade>,
+    trades: LookupMap<(AccountId,Instrument),Trade>,
+    test_trades: LookupMap<(AccountId,Instrument),Trade>,
     trial_liquidation_proofs: LookupMap<Instrument,Tick>,
-    last_trial_id: U64,
+    last_test_trader_id: U64,
     owner: AccountId
 }
 
 #[near]
 #[derive(BorshStorageKey)]
 pub enum Prefix {
-    Trial,
+    TestAccount,
+    Account,
     Tick,
     Trade,
+    TestTrade,
     TrialLiquidationProof
 }
 
@@ -52,11 +56,13 @@ impl Contract {
     #[init]
     pub fn init(owner: AccountId) -> Self {
         Self {
-            trials: LookupMap::new(Prefix::Trial),
+            test_accounts: LookupMap::new(Prefix::TestAccount),
+            accounts: LookupMap::new(Prefix::Account),
             ticks: LookupMap::new(Prefix::Tick),
+            test_trades: LookupMap::new(Prefix::TestTrade),
             trades: LookupMap::new(Prefix::Trade),
             trial_liquidation_proofs: LookupMap::new(Prefix::TrialLiquidationProof),
-            last_trial_id: Default::default(),
+            last_test_trader_id: Default::default(),
             owner,
         }
     }
@@ -67,19 +73,35 @@ impl Contract {
     //     trial.platform_fee_taken = true;
     //     Promise::new(self.owner.clone()).transfer(PLATFORM_TRIAL_FEE);
     // }
+    pub fn liquidate(&mut self, tick: Tick) {
+        require!(env::signer_account_id() == self.owner);
+        self.ticks.insert(tick.instrument,tick);
+    }
+
     pub fn set_tick(&mut self, tick: Tick) {
         require!(env::signer_account_id() == self.owner);
         self.ticks.insert(tick.instrument,tick);
     }
 
+    pub fn set_test_trade(&mut self, trade: Trade, trader:AccountId, trader_id:U64) {
+        require!(env::signer_account_id() == trader);
+        if let Some(account) = self.test_accounts.get(&trader_id) {
+            require!(env::signer_account_id() == account.trader);
+            require!(account.liquidator_fee_taken == false);
+
+            let trade_id = (trader,trade.instrument);
+            self.trades.set(trade_id,Some(trade));
+        }
+    }
+
     // Public method - accepts a greeting, such as "howdy", and records it
     #[payable]
-    pub fn set_trial(&mut self, _t: Trial) {
+    pub fn set_test_account(&mut self, _t: Trial) {
         require!(env::attached_deposit() == TRIAL_FEE);
-        let mut trial_id = self.last_trial_id;
+        let mut trial_id = self.last_test_trader_id;
         trial_id.0 += 1;
         // trial.time = env::block_timestamp_ms().to_string();
-        self.trials.insert(trial_id,Trial{
+        self.test_accounts.insert(trial_id, Trial{
             trader:env::signer_account_id().to_string(),
             liquidator_fee_taken:false
         });

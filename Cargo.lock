@@ -8580,6 +8580,7 @@ dependencies = [
 name = "t24_lib"
 version = "0.1.0"
 dependencies = [
+ "actix-web",
  "bincode 2.0.0-rc.3",
  "chrono",
  "clap 4.5.17",

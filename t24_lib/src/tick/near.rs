@@ -9,11 +9,11 @@ pub mod std {
     use crate::tick::NearTick;
 
     pub fn set_tick(
-        instrument:Instrument,
-        secret:&str,
         rpc_url:&str,
         contract_id:&str,
         key_path:&str,
+        secret:&str,
+        instrument:Instrument,
     ){
         let now = Utc::now().timestamp_millis();
         let ticks = fetch_hlocv_oanda(

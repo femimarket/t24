@@ -30,11 +30,29 @@ pub mod t24_std {
     use crate::trade::Trade;
 
     const OANDA_SECRET: OnceCell<String> = OnceCell::new();
+    const RPC_URL: OnceCell<String> = OnceCell::new();
+    const CONTRACT_ID: OnceCell<String> = OnceCell::new();
+    const KEY_PATH: OnceCell<String> = OnceCell::new();
 
 
     pub fn oanda_secret() -> String {
         OANDA_SECRET.get_or_init(|| {
             std::env::var("OANDA_SECRET").unwrap()
+        }).to_string()
+    }
+    pub fn rpc_url() -> String {
+        OANDA_SECRET.get_or_init(|| {
+            std::env::var("RPC_URL").unwrap()
+        }).to_string()
+    }
+    pub fn contract_id() -> String {
+        OANDA_SECRET.get_or_init(|| {
+            std::env::var("CONTRACT_ID").unwrap()
+        }).to_string()
+    }
+    pub fn key_path() -> String {
+        OANDA_SECRET.get_or_init(|| {
+            std::env::var("KEY_PATH").unwrap()
         }).to_string()
     }
 
